@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: credit
+  profiles:
+    active: production
+
+eureka:
+  client: ${eureka-client}
