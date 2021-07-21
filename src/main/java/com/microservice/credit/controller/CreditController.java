@@ -1,31 +1,35 @@
 package com.microservice.credit.controller;
 
-
-import com.microservice.credit.domain.model.Credit;
+import com.microservice.credit.connector.CustomerDto;
+import com.microservice.credit.domain.model.CreditDto;
+import com.microservice.credit.provider.CustomerProvider;
 import com.microservice.credit.service.CreditService;
+import com.microservice.credit.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/credit")
+@RequestMapping("/api/v1/credit")
 @RestController
+@RequiredArgsConstructor
 public class CreditController {
 
     private final CreditService creditService;
+    private final CustomerService customerService;
 
-    public CreditController(CreditService creditService) {
-        this.creditService = creditService;
-    }
-
-    @GetMapping(value = "getCredits")
-    public List<Credit> getCredits() {
-        List<Credit> credits =creditService.getCredits();
+    @GetMapping
+    public List<CreditDto> getCredits() {
+        List<CreditDto> credits =creditService.getCredits();
         return credits;
     }
 
+
     @PostMapping
-    public void createCredit(@RequestBody Credit credit) {
-        Credit credit1 = new Credit();
-        creditService.createCredit(credit1);
+    public CreditDto createCredit(@RequestBody @Valid CreditDto creditDto) {
+        return creditService.createCredit(creditDto);
     }
 }
