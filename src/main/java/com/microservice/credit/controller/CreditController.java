@@ -27,6 +27,13 @@ public class CreditController {
         return credits;
     }
 
+    @GetMapping("/{creditId}/customerProducts")
+    public CreditDto getCreditCustomer (@PathVariable Long creditId) {
+        CreditDto creditDto = creditService.getCredit(creditId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+        return creditDto;
+    }
 
     @PostMapping
     public CreditDto createCredit(@RequestBody @Valid CreditDto creditDto) {
